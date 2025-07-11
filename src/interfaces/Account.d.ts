@@ -1,7 +1,8 @@
 export interface Account {
-  id: string;
+  _id: string;
   email: string;
   phoneNumber: string;
   password: string;
   deactivated?: boolean;
+  createdAt: number;
 }

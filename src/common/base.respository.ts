@@ -1,4 +1,5 @@
 // base.repository.ts
+import { NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import { Db, Collection, Document, WithId, OptionalUnlessRequiredId } from 'mongodb';
 
 export abstract class BaseRepository<T extends Document> {
@@ -17,9 +18,26 @@ export abstract class BaseRepository<T extends Document> {
     return this.collection.findOne({ id } as any);
   }
 
-  async create(item: OptionalUnlessRequiredId<T>): Promise<WithId<T>> {
+  async getBy(filter: Partial<T>, projection?: Record<string, any>): Promise<WithId<T> | null> {
+
+    const data = await this.collection.findOne(filter as any, { projection });
+
+    if (!data) {
+      throw new NotFoundException('Resource not found');
+    }
+
+    return data;
+  }
+
+  async create(item: OptionalUnlessRequiredId<T>) {
     const result = await this.collection.insertOne(item);
-    return { ...item, _id: result.insertedId } as WithId<T>;
+
+    if (!result) {
+      throw new ServiceUnavailableException('Failed to create item');
+    }
+
+
+    return { success: true, message: 'Operation successful' };
   }
 
   async update(id: string, item: Partial<T>): Promise<WithId<T> | null> {

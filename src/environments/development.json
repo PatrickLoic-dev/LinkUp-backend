@@ -1,0 +1,18 @@
+{
+    "env": "development",
+    "ip": "127.0.0.1",
+    "port": 3000,
+    "host": "localhost",
+    "db": {
+        "host": "localhost:27017",
+        "name": "linkup",
+        "auth": {
+            "user": "",
+            "password": ""
+        }
+    },
+    "baseUrl": "http://localhost:3000",
+    "basePath": "/api/v1",
+    "jwtSecret": "n1l894y7c0br3k7",
+    "saltRounds": 5
+}
