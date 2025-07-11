@@ -3,10 +3,11 @@ import { Db, WithId, OptionalUnlessRequiredId } from 'mongodb';
 import { BaseRepository } from '../../../common/base.respository';
 import { Account } from 'src/interfaces/Account';
 import * as bcrypt from 'bcrypt';
+import { Database } from 'src/database/database';
 
 export class AccountRepository extends BaseRepository<Account> {
-  constructor(db: Db) {
-    super(db, Account);
+  constructor(database: Database) {
+    super(database);
   }
 
   async createAccount(account: OptionalUnlessRequiredId<Account>){
@@ -19,6 +20,6 @@ export class AccountRepository extends BaseRepository<Account> {
   }
 
   async findByEmail(email: string): Promise<WithId<Account> | null> {
-    return this.collection.findOne({ email });
+    return super.getBy({ email }) as unknown as WithId<Account>;
   }
 }
