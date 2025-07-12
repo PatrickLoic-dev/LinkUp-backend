@@ -31,6 +31,26 @@ export class AuthenticationService {
     return { account, token };
   }
 
+  async verifyExperienceAndAuthorize(email: string) {
+    const account = await this.accountRepo.findByEmail(email);
+    if (!account) throw new UnauthorizedException('User not found');
+  
+    const today = new Date();
+  
+    // const isCurrentlyInCompany = account.experience.some((job) => {
+    //   const startDate = new Date(job.startDate);
+    //   const endDate = job.endDate ? new Date(job.endDate) : null;
+  
+    //   return startDate <= today && (!endDate || endDate > today);
+    // });
+  
+    // if (!isCurrentlyInCompany) {
+    //   throw new UnauthorizedException('User is not currently in a company');
+    // }
+  
+    return { authorized: true, account };
+  }
+
   async getUser(filter: Partial<Account>, projection?: Record<string, any>) {
     const account = await this.accountRepo.getBy(filter, projection);
     if (!account) throw new UnauthorizedException('User not found');

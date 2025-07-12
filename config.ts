@@ -1,4 +1,4 @@
-import convict from 'convict';
+import * as convict from 'convict';
 
 export const config = convict({
   env: {
@@ -9,7 +9,7 @@ export const config = convict({
   },
   ip:{
     doc: 'The IP address to bind.',
-    format: 'ipaddress',
+    format: String,
     default: '127.0.0.1',
     env: 'IP_ADDRESS',
   },
@@ -50,7 +50,7 @@ export const config = convict({
   },
   baseUrl :{
     doc: 'Base URL for the application',
-    format: 'url',
+    format: String,
     default: 'http://localhost:3000',
     env: 'BASE_URL',
     arg: 'base-url',
